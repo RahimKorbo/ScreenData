@@ -1,0 +1,64 @@
+{
+    "users":[
+      {
+        "id": 1,
+        "contents": "Previous State Number",
+        "des": "110"
+       
+      },
+        {
+          "id": 2,
+          "contents": "State Type",
+          "des": "A"
+         
+        },
+        {
+          "id": 3,
+          "contents": "Screen Number",
+          "des": "101"
+         
+        },
+        {
+          "id": 4,
+          "contents": "Good Read Next State Number",
+          "des": "110"
+         
+        },
+        {
+          "id": 5,
+          "contents": "Error (Misread) Screen Number",
+          "des": "202"
+         
+        },
+        {
+          "id": 6,
+          "contents": "Read Condition 1",
+          "des": "000"
+         
+        },
+        {
+          "id": 7,
+          "contents": "Read Condition 2",
+          "des": "000"
+         
+        },
+        {
+          "id": 8,
+          "contents": "Read Condition 2",
+          "des": "009"
+         
+        },
+        {
+          "id": 9,
+          "contents": "Card Return Flag",
+          "des": "009"
+         
+        },
+        {
+          "id": 10,
+          "contents": "No Fit Match Next State Number",
+          "des": "009"
+         
+        }
+      ]
+}
