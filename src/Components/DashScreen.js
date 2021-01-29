@@ -1,12 +1,13 @@
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Container, Typography, CssBaseline, Button, Paper, TextField, Divider, Grid, Avatar, FormControlLabel, Checkbox, FormControl, TableRow, TableCell, TableContainer, Table, TableHead } from '@material-ui/core'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import { Link } from 'react-router-dom';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Height } from '@material-ui/icons';
 import axios from 'axios';
 import { DataGrid } from '@material-ui/data-grid';
+import loadingImg from '../assets/loading.gif';
 
 const paperStyle = {
     // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', 
@@ -85,20 +86,54 @@ const titleStyle = {
 }
 const DashScreen = () => {
 
-    const [users, setUser] = useState([]);
+    const stateData = useRef('');
+    const [list, setList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
 
-        loadUsers();
+    //  loadData();
+    stateData.current.focus();
     }, []);
 
-    const loadUsers = async () => {
-        const result = await axios.get("http://localhost:3001/users");
+    const loadData = async () => {
 
-        console.log(result.data);
-        setUser(result.data);
+        
 
+       // console.log(result.data);
+       // setList(result.data);
+
+
+    }
+
+                                                                                                                                                         
+    const SubmitBUtton = async () =>{
+
+        const header ={ "Content-Type": "application/json" };
+
+        let json = {
+            input: stateData.current.value
+        }
+        console.log(json)
+
+        const result = await axios.post("https://cors-anywhere.herokuapp.com/http://screen-data.herokuapp.com/api/process",{header},{ withCredentials: true });
+
+        setLoading(true);
+
+        result(json).then(res=>{
+          console.log(res)
+          
+          if(res.status===200){
+            alert(res.status);
+            setList(res.list);
+            setLoading(false);
+
+          }
+          else{
+            alert("Error Occurred")
+          }
+        })
 
     }
     
@@ -115,18 +150,21 @@ const DashScreen = () => {
                     <div style={dashboardStyle}>
                         <AccountCircleIcon fontSize='large' />
                         <FormControl variant="outlined">
-                            <TextField id="standard-basic" label="State Data table" inputProps={{ maxLength: 28 }} />
+                            <TextField id="standard-basic" label="State Data table"  inputRef={stateData} inputProps={{ maxLength: 28 }} />
 
                         </FormControl>
 
 
-                        <Button variant="contained" size="small" color="primary">Show Data</Button>
+                        <Button variant="contained" size="small" color="primary" onClick={SubmitBUtton}>Show Data</Button>
                     </div>
 
                     <div style={tableStyle}>
                         <div style={titleStyle}>
                             <h1> Screen Data</h1>
                         </div>
+                        
+                        
+
                         <TableContainer>
                             <Table>
                                 <TableHead>
@@ -137,7 +175,8 @@ const DashScreen = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {users.map((item, index) => (
+                                {loading && <img src={loadingImg} />}
+                                    {list.map((item, index) => (
                                         <TableRow key={index} selected="false">
                                             <TableCell>{item.id}</TableCell>
                                             <TableCell>{item.contents}</TableCell>
